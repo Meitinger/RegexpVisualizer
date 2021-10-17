@@ -8,7 +8,7 @@ Tiny [React](https://reactjs.org/) website that uses
 The site is hosted on [GitHub Pages](https://meitinger.github.io/regex_viz/),
 and built from source using a [GitHub Workflow](https://raw.githubusercontent.com/Meitinger/regex_viz/main/.github/workflows/gh-pages.yml).
 
-This project was created as part of master's course in computer science at [UIBK](https://informatik.uibk.ac.at/).
+This project was created as part of a master's course in computer science at [UIBK](https://informatik.uibk.ac.at/).
 
 
 ## Usage:
@@ -46,14 +46,11 @@ All other characters are consider `NON_META`.
 There are some small but important differences in the way regular expressions
 are validated:
 
-- No expressions that could be due to an unintended omission:
-  The regular expression `a|b|` is not considered valid by this parser,
-  instead use `(a|b)?`.
-  Same holds for all other operators.
-- No unescaped `META` characters:
-  Some libraries allow expressions like `[ab^c]` or `ab[c`, where `^` and `[`
-  are treated like ordinary characters.
-  This parser requires them to be escaped.
+- The regular expression `a|b|` is not considered valid by this parser,
+  instead use `(a|b)?`. Same holds for `a||b` or `a~b~`.
+- Regular expressions like `[ab^c]` or `ab[c`, where `^` and `[`
+  are treated like ordinary characters, are considered invalid.
+  Instead use the escaped form, i.e. `[ab\^c]` or `ab\[c`.
 
 
 ### Control Characters and Character Classes:
