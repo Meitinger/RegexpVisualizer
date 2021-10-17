@@ -20,6 +20,7 @@ import { useEffect, useState, useRef } from 'react';
 import { NFA, CharSet } from 'refa';
 import Viz from 'viz.js'
 import { DigitsCharSet, WhiteSpaceCharSet, WordCharSet } from './parser';
+import './visualizer.css'
 
 const Renderer = new (Viz as any)({ workerURL: '/regex_viz/static/js/full.render.js' }) as Viz;
 
