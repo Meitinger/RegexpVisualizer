@@ -1,0 +1,37 @@
+{
+  "name": "regex_viz",
+  "version": "1.0.0",
+  "description": "Regular expression parser/tester with finite automaton visualization.",
+  "dependencies": {
+    "parsimmon": "^1.18.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "refa": "^0.9.1",
+    "uikit": "^3.7.6",
+    "viz.js": "^2.1.2"
+  },
+  "devDependencies": {
+    "@types/parsimmon": "^1.10.6",
+    "@types/react": "^17.0.30",
+    "@types/react-dom": "^17.0.9",
+    "@types/uikit": "^3.3.2",
+    "@types/viz.js": "^2.1.2",
+    "react-scripts": "^4.0.3",
+    "typescript": "^4.4.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app"
+    ]
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead"
+  ]
+}

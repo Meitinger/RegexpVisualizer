@@ -1,0 +1,4 @@
+/build
+/node_modules
+/public/static/js/full.render.js
+/package-lock.json
