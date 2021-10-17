@@ -2,6 +2,7 @@
   "name": "regex_viz",
   "version": "1.0.0",
   "description": "Regular expression parser/tester with finite automaton visualization.",
+  "homepage": "https://meitinger.github.io/regex_viz/",
   "dependencies": {
     "parsimmon": "^1.18.0",
     "react": "^17.0.2",
