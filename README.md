@@ -1,6 +1,7 @@
 # Regular Expression Visualizer
 
-Tiny [React](https://reactjs.org/) website that uses
+Tiny [React](https://reactjs.org/)+[UIkit](https://getuikit.com/) website written in
+[typescript](https://www.typescriptlang.org/) that uses
 [parsimmon](https://github.com/jneen/parsimmon) to parse a regular expression,
 [refa](https://github.com/RunDevelopment/refa) to build a finite automaton out of the expression and
 [viz.js](http://viz-js.com/) to display said automaton.
@@ -17,16 +18,17 @@ Entered regular expressions can be used to test a string and support the
 following syntax (in order of precedence):
 
 ```bnf
-<regex>         ::= <union> | <intersection> | <concatenation> | <repetition> | <group> | <text>
+<regex>         ::= <union> | <intersection> | <concatenation> | <repetition> | <negation> | <group> | <text>
 <union>         ::= <regex> "|" <regex>
 <intersection>  ::= <regex> "~" <regex>
 <concatenation> ::= <regex> <regex>
-<repetition>    ::= <regex> ("*" | "+" | "?")
+<repetition>    ::= <regex> ("*" | "+" | "?" | "{" (NUMBER | [NUMBER] "," [NUMBER]) "}")
+<negation>      ::= "!" <regex>
 <group>         ::= "(" <regex> ")"
-<text>          ::= <range> | <class> | <char> | "."
+<text>          ::= (<range> | <class> | <char> | ".")+
 <range>         ::= "[" ["^"] <char> "-" <char> "]"
 <class>         ::= "\" ("d" | "D" | "w" | "W" | "s" | "S")
-<char>          ::= NON_META | "\\" META
+<char>          ::= NON_META | "\" META
 ```
 
 ### Escaping:
@@ -36,7 +38,7 @@ following syntax (in order of precedence):
 - If used in a `<range>`, the following `META` characters need to be escaped:
   `\`, `^`, `-` and `]`
 - If used anywhere else, the following `META` characters need to be escaped:
-  `\`, `[`, `(`, `)`, `{`, `}`, `[`, `]`, `|`, `*`, `+`, `?`, `.` and `~`
+  `\`, `[`, `(`, `)`, `{`, `}`, `[`, `]`, `|`, `*`, `+`, `?`, `.`, `~` and `!`
 
 All other characters are consider `NON_META`.
 

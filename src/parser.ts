@@ -17,7 +17,7 @@
  */
 
 import * as P from "parsimmon"
-import { CharSet, NFA } from "refa";
+import { CharSet, DFA, NFA } from "refa";
 
 const MaxCharacter = 0xFFFF;
 
@@ -65,13 +65,17 @@ export const Parser = P.createLanguage<{
     TILDE: '~'
     PLUS: '+'
     OPTIONAL: '?'
+    NOT: '!'
     PARENTH_LEFT: '('
     PARENTH_RIGHT: ')'
     BRACKET_LEFT: '['
     BRACKET_RIGHT: ']'
+    CURLY_LEFT: '{'
+    CURLY_RIGHT: '}'
     CARET: '^'
     DASH: '-'
     DOT: '.'
+    COMMA: ','
     NON_META: number
     ESCAPED_META: number
     CLASSES: CharSet
@@ -81,14 +85,21 @@ export const Parser = P.createLanguage<{
 
     regex: NFA
     union: NFA
-    level3: NFA
+    level4: NFA
     concatenation: NFA
-    level2: NFA
+    level3: NFA
     intersection: NFA
-    level1: NFA
+    level2: NFA
     star: NFA
     plus: NFA
     optional: NFA
+    repeat: NFA
+    repeat_range: { min: number, max: number }
+    repeat_fixed: { min: number, max: number }
+    number: number
+    optional_number: number | null
+    level1: NFA
+    negation: NFA
     level0: NFA
     group: NFA
     text: NFA
@@ -107,15 +118,19 @@ export const Parser = P.createLanguage<{
     TILDE: () => P.string('~'),
     PLUS: () => P.string('+'),
     OPTIONAL: () => P.string('?'),
+    NOT: () => P.string('!'),
     PARENTH_LEFT: () => P.string('('),
     PARENTH_RIGHT: () => P.string(')'),
     BRACKET_LEFT: () => P.string('['),
     BRACKET_RIGHT: () => P.string(']'),
+    CURLY_LEFT: () => P.string('{'),
+    CURLY_RIGHT: () => P.string('}'),
     CARET: () => P.string('^'),
     DASH: () => P.string('-'),
     DOT: () => P.string('.'),
-    NON_META: () => P.regexp(/[^\\(){}[\]|*+?.~]/).map(s => s.charCodeAt(0)),
-    ESCAPED_META: () => P.regexp(/\\[\\(){}[\]|*+?.~]/).map(s => s.charCodeAt(1)),
+    COMMA: () => P.string(','),
+    NON_META: () => P.regexp(/[^\\(){}[\]|*+?.~!]/).map(s => s.charCodeAt(0)),
+    ESCAPED_META: () => P.regexp(/\\[\\(){}[\]|*+?.~!]/).map(s => s.charCodeAt(1)),
     CLASSES: () => P.regexp(/\\[dDwWsS]/).map(s => {
         switch (s[1]) {
             case 'd': return DigitsCharSet;
@@ -133,6 +148,7 @@ export const Parser = P.createLanguage<{
             case 'r': return 13;
             case 'n': return 10;
             case 'v': return 11;
+            case 'f': return 12;
             case 'b': return 8;
             case '0': return 0;
             case 'u': return parseInt(s.substring(2));
@@ -142,24 +158,35 @@ export const Parser = P.createLanguage<{
     SET_NON_META: () => P.regexp(/[^\\^\-\]]/).map(s => s.charCodeAt(0)),
     SET_ESCAPED_META: () => P.regexp(/\\[\\^\-\]]/).map(s => s.charCodeAt(1)),
 
-    regex: r => P.alt(r.union, r.level3),
-    union: r => P.seq(r.level3, r.PIPE, r.regex).map(([left, _, right]) => {
+    regex: r => P.alt(r.union, r.level4),
+    union: r => P.seq(r.level4, r.PIPE, r.regex).map(([left, _, right]) => {
         var result = left.copy();
         result.union(right);
         return result;
     }),
-    level3: r => P.alt(r.intersection, r.level2),
-    intersection: r => P.seq(r.level2, r.TILDE, r.level3).map(([left, _, right]) => NFA.fromIntersection(left, right)),
-    level2: r => P.alt(r.concatenation, r.level1),
-    concatenation: r => P.seq(r.level1, r.level2).map(([left, right]) => {
+    level4: r => P.alt(r.intersection, r.level3),
+    intersection: r => P.seq(r.level3, r.TILDE, r.level4).map(([left, _, right]) => NFA.fromIntersection(left, right)),
+    level3: r => P.alt(r.concatenation, r.level2),
+    concatenation: r => P.seq(r.level2, r.level3).map(([left, right]) => {
         var result = left.copy();
         result.append(right);
         return result;
     }),
-    level1: r => P.alt(r.star, r.plus, r.optional, r.level0),
-    star: r => P.seq(r.level0, r.STAR).map(([nfa, _]) => quantify(nfa, 0, Infinity)),
-    plus: r => P.seq(r.level0, r.PLUS).map(([nfa, _]) => quantify(nfa, 1, Infinity)),
-    optional: r => P.seq(r.level0, r.OPTIONAL).map(([nfa, _]) => quantify(nfa, 0, 1)),
+    level2: r => P.alt(r.star, r.plus, r.optional, r.repeat, r.level1),
+    star: r => P.seq(r.level1, r.STAR).map(([nfa, _]) => quantify(nfa, 0, Infinity)),
+    plus: r => P.seq(r.level1, r.PLUS).map(([nfa, _]) => quantify(nfa, 1, Infinity)),
+    optional: r => P.seq(r.level1, r.OPTIONAL).map(([nfa, _]) => quantify(nfa, 0, 1)),
+    repeat: r => P.seq(r.level1, r.CURLY_LEFT, P.alt(r.repeat_range, r.repeat_fixed), r.CURLY_RIGHT).map(([nfa, _l, range, _r]) => quantify(nfa, range.min, range.max)),
+    repeat_range: r => P.seq(r.optional_number, r.COMMA, r.optional_number).map(([min, _, max]) => ({ min: min ?? 0, max: max ?? Infinity })),
+    repeat_fixed: r => r.number.map(n => ({ min: n, max: n })),
+    number: () => P.regexp(/0|[1-9][0-9]*/).map(parseInt),
+    optional_number: () => P.regexp(/(0|[1-9][0-9]*)?/).map(s => s.length > 0 ? parseInt(s) : null),
+    level1: r => P.alt(r.negation, r.level0),
+    negation: r => P.seq(r.NOT, r.level0).map(([_, nfa]) => {
+        const dfa = DFA.fromFA(nfa);
+        dfa.complement();
+        return NFA.fromFA(dfa);
+    }),
     level0: r => P.alt(r.group, r.text),
     group: r => P.seq(r.PARENTH_LEFT, r.regex, r.PARENTH_RIGHT).map(([_l, nfa, _r]) => nfa),
     text: r => P.alt(r.CLASSES, r.any, r.positive_set, r.negative_set, r.char.map(charSetFromChar)).map(nfaFromCharSet),

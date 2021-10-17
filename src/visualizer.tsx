@@ -21,7 +21,7 @@ import { NFA, CharSet } from 'refa';
 import Viz from 'viz.js'
 import { DigitsCharSet, WhiteSpaceCharSet, WordCharSet } from './parser';
 
-const Renderer = new (Viz as any)({ workerURL: './static/js/full.render.js' }) as Viz;
+const Renderer = new (Viz as any)({ workerURL: '/regex_viz/static/js/full.render.js' }) as Viz;
 
 const Classes = new Map<string, CharSet>([
     ['\\d', DigitsCharSet],
@@ -38,6 +38,7 @@ function formatChar(char: number): string {
         case 13: return '\r';
         case 10: return '\n';
         case 11: return '\v';
+        case 12: return '\f';
         case 8: return '\b';
         case 0: return '\0';
         case 32: return '<space>';
@@ -55,10 +56,13 @@ function formatChar(char: number): string {
 
 function formatCharSet(charSet: CharSet): string {
     if (charSet.isAll) {
-        return '<any>';
+        return 'any';
     }
     if (charSet.isEmpty) {
-        return '<never>'; // should never occur
+        return 'never'; // should never occur
+    }
+    if (charSet.size * 2 > charSet.maximum) {
+        return `not ${formatCharSet(charSet.negate())}`;
     }
 
     const classes: string[] = []
@@ -134,7 +138,7 @@ export const Visualizer = ({ nfa }: { nfa: NFA | null }) => {
                 </div>
             </div>
             <div className="uk-card-body">
-                <div className={`uk-background-${graph ? 'default' : 'muted'}`} style={{ overflow: 'auto' }} data-uk-height-viewport="expand: true">
+                <div className={`uk-overflow-auto uk-background-${graph ? 'default' : 'muted'}`} data-uk-height-viewport="expand: true">
                     {error && <span className="uk-text-danger">{error}</span>}
                     {nfa && !(graph || error) && <div className="uk-position-center" data-uk-spinner="ratio: 2"></div>}
                     <div ref={graphHolder}></div>
