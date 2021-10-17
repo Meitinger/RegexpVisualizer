@@ -122,10 +122,10 @@ export const Visualizer = ({ nfa }: { nfa: NFA | null }) => {
         <div className="uk-card uk-card-default">
             <div className="uk-card-header">
                 <div className="uk-grid-small" data-uk-grid>
-                    <div className="uk-width-auto@m">
+                    <div className="uk-width-auto">
                         <h3 className="uk-card-title">Visualization</h3>
                     </div>
-                    <div className="uk-width-expand@m uk-text-right">
+                    <div className="uk-width-expand uk-text-right">
                         <div className="uk-button-group">
                             <button disabled={!graph || scale === 100} className="uk-button uk-button-default uk-button-small" onClick={() => setScale(Math.max(scale - 10, 100))}><span data-uk-icon="minus-circle"></span></button>
                             <button disabled={!graph} className="uk-button uk-button-default uk-button-small" onClick={() => setScale(scale + 10)}><span data-uk-icon="plus-circle"></span></button>

@@ -57,49 +57,41 @@ const App = () => {
     return (
         <>
             <div className="uk-margin-top uk-margin-left uk-margin-right uk-margin-bottom">
-                <div className="uk-grid-small uk-grid-match" data-uk-grid>
-                    <div className="uk-width-2-3">
-                        <div className="uk-card uk-card-default">
-                            <div className="uk-card-header">
+                <div className="uk-margin uk-card uk-card-default">
+                    <div className="uk-card-header">
+                        <div className="uk-grid-small" data-uk-grid>
+                            <div className="uk-width-auto">
                                 <h3 className="uk-card-title">Regular Expression</h3>
                             </div>
-                            <div className="uk-card-body">
-                                <div>
-                                    <div className="uk-grid-small uk-grid-match" data-uk-grid>
-                                        <div className="uk-width-3-5">
-                                            <input className={`uk-input ${nfa ? 'uk-form-success' : error ? 'uk-form-danger' : ''}`} type="text" onInput={e => parse(e.currentTarget.value)} />
-                                        </div>
-                                        <div className="uk-width-auto">
-                                            <span className={`uk-text-large uk-text-${nfa ? 'primary' : 'muted'}`}>test</span>
-                                        </div>
-                                        <div className="uk-width-expand">
-                                            <div className="uk-inline">
-                                                {test() !== undefined && <span className={`uk-form-icon uk-text-${test() ? 'success' : 'danger'}`} uk-icon={test() ? 'check' : 'close'}></span>}
-                                                <input disabled={!nfa} className="uk-input" type="text" value={text} onInput={e => setText(e.currentTarget.value)} />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        {error && <span className="uk-text-danger">{error}</span>}
-                                        {nfa?.isEmpty ? <span className="uk-label uk-label-warning">Empty</span> : nfa?.isFinite ? <span className="uk-label uk-label-default">Finite</span> : <span>&nbsp;</span>}
+                            <div className="uk-width-expand uk-text-right">
+                                <a className="uk-text-primary uk-button uk-button-text" href="https://github.com/Meitinger/regex_viz/blob/main/README.md" target="_blank" rel="noreferrer">Usage</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="uk-card-body">
+                        <div>
+                            <div className="uk-grid-small uk-grid-match" data-uk-grid>
+                                <div className="uk-width-3-5@m">
+                                    <input className={`uk-input ${nfa ? 'uk-form-success' : error ? 'uk-form-danger' : ''}`} type="text" onInput={e => parse(e.currentTarget.value)} />
+                                </div>
+                                <div className="uk-width-auto@m">
+                                    <span className={`uk-text-large uk-text-${nfa ? 'primary' : 'muted'}`}>test</span>
+                                </div>
+                                <div className="uk-width-expand@m">
+                                    <div className="uk-inline">
+                                        {test() !== undefined && <span className={`uk-form-icon uk-text-${test() ? 'success' : 'danger'}`} uk-icon={test() ? 'check' : 'close'}></span>}
+                                        <input disabled={!nfa} className="uk-input" type="text" value={text} onInput={e => setText(e.currentTarget.value)} />
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div className="uk-width-1-3">
-                        <div className="uk-card uk-card-default" >
-                            <div className="uk-card-header">
-                                <h3 className="uk-card-title">Usage</h3>
-                            </div>
-                            <div className="uk-card-body">
+                            <div>
+                                {error && <span className="uk-text-danger">{error}</span>}
+                                {nfa?.isEmpty ? <span className="uk-label uk-label-warning">Empty</span> : nfa?.isFinite ? <span className="uk-label uk-label-default">Finite</span> : <span>&nbsp;</span>}
                             </div>
                         </div>
-                    </div>
-                    <div className="uk-width-1-1">
-                        <Visualizer nfa={nfa} />
                     </div>
                 </div>
+                <Visualizer nfa={nfa} />
             </div>
         </>
     );

@@ -114,8 +114,8 @@ export const Parser = P.createLanguage<{
     CARET: () => P.string('^'),
     DASH: () => P.string('-'),
     DOT: () => P.string('.'),
-    NON_META: () => P.regexp(/[^\\(){}[\]|*+?.!~]/).map(s => s.charCodeAt(0)),
-    ESCAPED_META: () => P.regexp(/\\[\\(){}[\]|*+?.!~]/).map(s => s.charCodeAt(1)),
+    NON_META: () => P.regexp(/[^\\(){}[\]|*+?.~]/).map(s => s.charCodeAt(0)),
+    ESCAPED_META: () => P.regexp(/\\[\\(){}[\]|*+?.~]/).map(s => s.charCodeAt(1)),
     CLASSES: () => P.regexp(/\\[dDwWsS]/).map(s => {
         switch (s[1]) {
             case 'd': return DigitsCharSet;
