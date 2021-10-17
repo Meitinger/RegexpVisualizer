@@ -84,10 +84,7 @@ const App = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div>
-                                {error && <span className="uk-text-danger">{error}</span>}
-                                {nfa?.isEmpty ? <span className="uk-label uk-label-warning">Empty</span> : nfa?.isFinite ? <span className="uk-label uk-label-default">Finite</span> : <span>&nbsp;</span>}
-                            </div>
+                            {error && <span className="uk-text-danger">{error}</span>}
                         </div>
                     </div>
                 </div>
