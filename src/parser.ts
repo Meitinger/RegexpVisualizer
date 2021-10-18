@@ -62,7 +62,7 @@ function charSetFromChar(char: number): CharSet {
 export const Parser = P.createLanguage<{
     STAR: '*'
     PIPE: '|'
-    TILDE: '~'
+    AMPERSAND: '&'
     PLUS: '+'
     OPTIONAL: '?'
     NOT: '!'
@@ -115,7 +115,7 @@ export const Parser = P.createLanguage<{
 }>({
     STAR: () => P.string('*'),
     PIPE: () => P.string('|'),
-    TILDE: () => P.string('~'),
+    AMPERSAND: () => P.string('&'),
     PLUS: () => P.string('+'),
     OPTIONAL: () => P.string('?'),
     NOT: () => P.string('!'),
@@ -129,8 +129,8 @@ export const Parser = P.createLanguage<{
     DASH: () => P.string('-'),
     DOT: () => P.string('.'),
     COMMA: () => P.string(','),
-    NON_META: () => P.regexp(/[^\\(){}[\]|*+?.~!]/).map(s => s.charCodeAt(0)),
-    ESCAPED_META: () => P.regexp(/\\[\\(){}[\]|*+?.~!]/).map(s => s.charCodeAt(1)),
+    NON_META: () => P.regexp(/[^\\(){}[\]|&*+?!.]/).map(s => s.charCodeAt(0)),
+    ESCAPED_META: () => P.regexp(/\\[\\(){}[\]|&*+?!.]/).map(s => s.charCodeAt(1)),
     CLASSES: () => P.regexp(/\\[dDwWsS]/).map(s => {
         switch (s[1]) {
             case 'd': return DigitsCharSet;
@@ -165,7 +165,7 @@ export const Parser = P.createLanguage<{
         return result;
     }),
     level4: r => P.alt(r.intersection, r.level3),
-    intersection: r => P.seq(r.level3, r.TILDE, r.level4).map(([left, _, right]) => NFA.fromIntersection(left, right)),
+    intersection: r => P.seq(r.level3, r.AMPERSAND, r.level4).map(([left, _, right]) => NFA.fromIntersection(left, right)),
     level3: r => P.alt(r.concatenation, r.level2),
     concatenation: r => P.seq(r.level2, r.level3).map(([left, right]) => {
         var result = left.copy();

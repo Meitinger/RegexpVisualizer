@@ -20,7 +20,7 @@ following syntax (in order of precedence):
 ```bnf
 <regex>         ::= <union> | <intersection> | <concatenation> | <repetition> | <negation> | <group> | <text>
 <union>         ::= <regex> "|" <regex>
-<intersection>  ::= <regex> "~" <regex>
+<intersection>  ::= <regex> "&" <regex>
 <concatenation> ::= <regex> <regex>
 <repetition>    ::= <regex> ("*" | "+" | "?" | "{" (NUMBER | [NUMBER] "," [NUMBER]) "}")
 <negation>      ::= "!" <regex>
@@ -38,7 +38,7 @@ following syntax (in order of precedence):
 - If used in a `<range>`, the following `META` characters need to be escaped:
   `\`, `^`, `-` and `]`
 - If used anywhere else, the following `META` characters need to be escaped:
-  `\`, `[`, `(`, `)`, `{`, `}`, `[`, `]`, `|`, `*`, `+`, `?`, `.`, `~` and `!`
+  `\`, `[`, `(`, `)`, `{`, `}`, `[`, `]`, `|`, `&`, `*`, `+`, `?`, `!` and `.`
 
 All other characters are consider `NON_META`.
 
