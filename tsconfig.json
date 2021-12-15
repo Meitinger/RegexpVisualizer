@@ -1,20 +1,17 @@
 {
   "compilerOptions": {
-    "allowJs": true,
     "allowSyntheticDefaultImports": true,
-    "esModuleInterop": false,
     "exactOptionalPropertyTypes": true,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
-    "jsx": "react-jsx",
+    "jsx": "react-native",
     "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
+      "DOM",
+      "ESNext",
+      "WebWorker"
     ],
-    "module": "esnext",
-    "moduleResolution": "node",
-    "noEmit": true,
+    "module": "ESNext",
+    "moduleResolution": "Node",
     "noFallthroughCasesInSwitch": true,
     "noImplicitOverride": true,
     "noImplicitReturns": true,
@@ -23,9 +20,8 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "resolveJsonModule": true,
-    "skipLibCheck": true,
     "strict": true,
-    "target": "es6"
+    "target": "ES6"
   },
   "include": [
     "src"
