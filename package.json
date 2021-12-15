@@ -35,7 +35,7 @@
     "typescript": "^4.4.4"
   },
   "scripts": {
-    "build": "parcel build --public-url /regex_viz/",
+    "build": "parcel build --public-url /regex_viz/ --no-optimize --no-scope-hoist",
     "start": "parcel",
     "test": "eslint ./src --ext .ts,.tsx"
   }
