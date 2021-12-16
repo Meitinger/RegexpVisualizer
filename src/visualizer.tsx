@@ -23,7 +23,7 @@ import Viz from 'viz.js'
 import { DigitsCharSet, WhiteSpaceCharSet, WordCharSet } from './parser'
 import './visualizer.css'
 
-const Renderer = new Viz({ workerURL: new URL('./../node_modules/viz.js/full.render.js', import.meta.url) }) as {
+const Renderer = new Viz({ worker: new Worker(new URL('./../node_modules/viz.js/full.render.js', import.meta.url), { type: 'module' }) }) as {
   renderSVGElement: (src: string) => Promise<SVGSVGElement>
 }
 
