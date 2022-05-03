@@ -38,13 +38,13 @@ const Classes = new Map<string, CharSet>([
 
 function formatChar (char: number): string {
   switch (char) {
-    case 9: return '\t'
-    case 13: return '\r'
-    case 10: return '\n'
-    case 11: return '\v'
-    case 12: return '\f'
-    case 8: return '\b'
-    case 0: return '\0'
+    case 9: return '\\t'
+    case 13: return '\\r'
+    case 10: return '\\n'
+    case 11: return '\\v'
+    case 12: return '\\f'
+    case 8: return '\\b'
+    case 0: return '\\0'
     case 32: return '<space>'
     default: {
       if (char > 126 || char < 32) {
