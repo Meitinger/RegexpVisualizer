@@ -6,8 +6,8 @@ Tiny [React](https://reactjs.org/)+[UIkit](https://getuikit.com/) website writte
 [refa](https://github.com/RunDevelopment/refa) to build a finite automaton out of the expression and
 [viz.js](http://viz-js.com/) to display said automaton.
 
-The site is hosted on [GitHub Pages](https://meitinger.github.io/regex_viz/),
-and built from source using a [GitHub Workflow](https://raw.githubusercontent.com/Meitinger/regex_viz/main/.github/workflows/gh-pages.yml).
+The site is hosted on [GitHub Pages](https://meitinger.github.io/RegexpVisualizer/),
+and built from source using a [GitHub Workflow](https://raw.githubusercontent.com/Meitinger/RegexpVisualizer/main/.github/workflows/gh-pages.yml).
 
 This project was created as part of a master's course in computer science at [UIBK](https://informatik.uibk.ac.at/).
 

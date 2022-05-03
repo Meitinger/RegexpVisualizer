@@ -46,7 +46,7 @@ export const App: React.FC = () => {
       if (result.status) {
         setNfa(result.value)
       } else {
-        setError(`Error at position ${result.index.column}, expected: ${result.expected.join(' | ')}`)
+        setError(`Error at position ${result.index.offset + 1}, got '${s.charAt(result.index.offset)}', expected: ${result.expected.join(' | ')}`)
       }
     }
   }
