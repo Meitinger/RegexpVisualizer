@@ -42,10 +42,11 @@ export const App: React.FC = () => {
     setNfa(undefined)
     setError(undefined)
     if (s.length > 0) {
-      try {
-        setNfa(Parser.regex.tryParse(s))
-      } catch (error) {
-        setError(String(error))
+      const result = Parser.regex.parse(s)
+      if (result.status) {
+        setNfa(result.value)
+      } else {
+        setError(`Error at position ${result.index.column}, expected: ${result.expected.join(' | ')}`)
       }
     }
   }
