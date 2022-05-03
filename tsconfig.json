@@ -21,7 +21,7 @@
     "noUnusedParameters": true,
     "resolveJsonModule": true,
     "strict": true,
-    "target": "ES6"
+    "target": "ESNext"
   },
   "include": [
     "src"

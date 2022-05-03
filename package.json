@@ -3,14 +3,14 @@
   "version": "1.0.1",
   "description": "Regular expression parser/tester with finite automaton visualization.",
   "homepage": "https://meitinger.github.io/regex_viz/",
-  "source": "src/index.html",
+  "source": "index.html",
   "browserslist": "> 0.5%, last 2 versions, not dead",
   "dependencies": {
     "parsimmon": "^1.18.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "refa": "^0.10.0",
-    "uikit": "^3.13.10",
+    "uikit": "^3.14.0",
     "viz.js": "^2.1.2"
   },
   "devDependencies": {
@@ -21,7 +21,6 @@
     "@types/viz.js": "^2.1.2",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
-    "buffer": "^6.0.3",
     "eslint": "^7.32.0",
     "eslint-config-standard-jsx": "^10.0.0",
     "eslint-config-standard-react": "^11.0.1",
@@ -32,13 +31,12 @@
     "eslint-plugin-promise": "^5.2.0",
     "eslint-plugin-react": "^7.29.4",
     "eslint-plugin-react-hooks": "^4.4.0",
-    "parcel": "^2.4.1",
-    "process": "^0.11.10",
-    "typescript": "^4.6.3"
+    "typescript": "^4.6.4",
+    "vite": "^2.9.7"
   },
   "scripts": {
-    "build": "parcel build --public-url /regex_viz/",
-    "start": "parcel",
+    "build": "vite build --base=/regex_viz/",
+    "dev": "vite",
     "test": "eslint ./src --ext .ts,.tsx"
   }
 }
